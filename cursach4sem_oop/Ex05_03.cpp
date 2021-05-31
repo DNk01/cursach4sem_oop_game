@@ -2,42 +2,40 @@
 #include <windows.h>
 #include <conio.h>
 #include <iostream>    
-using namespace std;        // Ïðîñòðàíñòâî èìåí std
+using namespace std;        // Пространство имен std
 
-#include "Point05_03.h" 	//îáúÿâëåíèå êëàññîâ
-#include "GetConWin.h"		//óêàçàòåëü íà êîíñîëüíîå îêíî
+#include "Point05_03.h" 	//объявление классов
+#include "GetConWin.h"		//указатель на консольное окно
 
+//макрос для определения кода нажатой клавиши
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 
 HDC hdc;	
 
 /*---------------------------------------------------------------------*/
-/*               Ï Ð Î Ò Î Ò È Ï Û    Ô Ó Í Ê Ö È É                    */
+/*               П Р О Т О Т И П Ы    Ф У Н К Ц И Й                    */
 /*---------------------------------------------------------------------*/
-HWND GetConcolWindow(); //óêàçàòåëü íà êîíñîëüíîå îêíî òåïåðü â  "GetConlWin.h"
+HWND GetConcolWindow(); //указатель на консольное окно теперь в  "GetConlWin.h"
 void border();
 void changestatus(Glass* glass0, Glass* glass1, Glass* glass2, Glass* glass3, Glass* glass4);
 void changestatus2(Glass* glass0, Glass* glass1, Glass* glass2, Glass* glass3, Glass* glass4);
 /***********************************************************************/
-/*               Î Ñ Í Î Â Í À ß    Ï Ð Î Ã Ð À Ì Ì À                  */
+/*               О С Н О В Н А Я    П Р О Г Р А М М А                  */
 /***********************************************************************/
 int main()
 {
 	HWND hwnd = GetConcolWindow();
 	system("color F0");
-	int x = 600, y = 500;
-	int count = 0;
-	int speed = 15;
-	Ball* BufBall[5];
-	Glass* glass[5];
+	int count = 0;//счетчик для вывода результата
+	int speed = 15;//скорость движения стакана
+	Ball* BufBall[5];//объявляем массив, в котором будут храниться шарики
+	Glass* glass[5];//объявляем массив, в котором будут храниться элементы шарика
 	if (hwnd != NULL)
 	{
 		hdc = GetWindowDC(hwnd);
 		if (hdc != 0)
 		{
-			border();
-			//Glass glass(600, 500);
-			//glass.Show();
+			border();//вывод границ
 			srand(time(NULL));
 			cout << "YOUR SCORE: ";
 			firBall firstBall(450, 100);
@@ -49,14 +47,9 @@ int main()
 			Downside down(510, 550);
 			Rightside right(550, 550);
 			Upside up(555, 520);
-			Glass full(500,500);
+			Glass full(500,500);//также мы будем выводить "рисунок", т.е. если наш стакан сталкивается с шаром определенного цвета,
+			//то будет меняться цвет содержимого стакана, full - содержимое
 			full.ChangeColor(242,242,242);
-			firstBall.status = 1;
-			secondBall.status = 2;
-			thirdBall.status = 3;
-			fourthBall.status = 4;
-			fifthBall.status = 5;
-
 			BufBall[0] = &firstBall;
 			BufBall[1] = &secondBall;
 			BufBall[2] = &thirdBall;
@@ -71,45 +64,27 @@ int main()
 			{
 				BufBall[i]->Show();
 				BufBall[i]->setSpeed(1);
-			}
-			for (int i = 0; i < 5; i++)
+				glass[i]->status = 0;
 				glass[i]->Show();
-			//Sleep(100000);
-			while (true)
+			}
+			while (true)//бесконечный цикл
 			{
-				if (KEY_DOWN(27))
+				if (KEY_DOWN(27))//если esc - выход
 					break;
-				if (KEY_DOWN(65))	
+				if (KEY_DOWN(65))	//если лево, то двигаем стакан влево на размер скорости
 					for (int i = 0; i < 5; i++)
 					{
 						glass[i]->Hide();
 						glass[i]->SetX(glass[i]->GetX() - speed);
 					}
-				if (KEY_DOWN(68))
+				if (KEY_DOWN(68))//если право, то право
 					for (int i = 0; i < 5; i++)
 					{
 						glass[i]->Hide();
 						glass[i]->SetX(glass[i]->GetX() + speed);
 					}
-				if (KEY_DOWN(16))
-				{
-					if (glass[0]->GetX() < 425)
-						for (int i = 0; i <5; i++)
-						{
-							glass[i]->Hide();
-							glass[i]->SetX(glass[i]->GetX() + speed);
-						}
-					if (glass[0]->GetX() > 720)
-						for (int i = 0; i < 5; i++)
-						{
-							glass[i]->Hide();
-							glass[i]->SetX(glass[i]->GetX() - speed);
-						}
-					speed = 40;
-				}
-				if (!KEY_DOWN(16))
-					speed = 20;
-				for (int i = 0; i < 5; i++)
+				
+				for (int i = 0; i < 5; i++)//если кнопка 1, 2..., то в ускоряется соответствующий шар
 				{
 					if (KEY_DOWN(49 + i))
 					{
@@ -117,9 +92,9 @@ int main()
 						BufBall[i]->SetY(BufBall[i]->GetY() + BufBall[i]->getSpeed());
 					}
 				}
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 5; i++)//вывод стакана (4 стенки + цвет)
 					glass[i]->Show();
-				if (KEY_DOWN(16))
+				if (KEY_DOWN(16))//если shift - то ускоряем стакан на размер его скорости (скорость = скорость * 2)
 				{
 					if (glass[0]->GetX() < 380)
 						for (int i = 0; i < 5; i++)
@@ -135,7 +110,9 @@ int main()
 						}
 					speed = 40;
 				}
-				if (glass[0]->GetX() < 420)
+				if (!KEY_DOWN(16))//если не шифт, то возвращаем скорость на изначальную скорость
+					speed = 20;
+				if (glass[0]->GetX() < 420)//условия, при котором стакан не выходит за границы поля
 					for (int i = 0; i < 5; i++)
 					{
 						glass[i]->Hide();
@@ -147,22 +124,22 @@ int main()
 						glass[i]->Hide();
 						glass[i]->SetX(glass[i]->GetX() - speed * 2);
 					}
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 5; i++)//движение шаров
 				{
 					BufBall[i]->MoveTo(BufBall[i]->GetX(), BufBall[i]->GetY() + BufBall[i]->getSpeed());
 					BufBall[i]->SetY(BufBall[i]->GetY() + BufBall[i]->getSpeed());
 				}
 				Sleep(50);
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 5; i++)//взаимодействие шаров и стакана
 				{
-					if (BufBall[i]->GetY() > 500)
+					if (BufBall[i]->GetY() > 500)//если шар входит в поле, когда он может взаимодействовать со стаканом
 					{
-						if (BufBall[i]->GetX() < glass[3]->GetX() + 5 && BufBall[i]->GetX() > glass[0]->GetX())
+						if (BufBall[i]->GetX() < glass[3]->GetX() + 5 && BufBall[i]->GetX() > glass[0]->GetX())//если шар сталкивается по координатам x, то...
 						{
-							if (i == 2)
+							if (i == 2)//если столкнулся wrongball, то...
 							{
-								full.ChangeColor(242, 242, 242);
-								if (glass[0]->status == 0)
+								full.ChangeColor(242, 242, 242);//стакан обеляется
+								if (glass[0]->status == 0)///если он большого размера, то он уменьшается
 								{
 									for (int i = 0; i < 5; i++)
 										glass[i]->Hide();
@@ -171,10 +148,10 @@ int main()
 										glass[i]->Show();
 								}
 							}
-							else
+							else//если не wrongball
 							{
-								full.ChangeColor(BufBall[i]->first, BufBall[i]->second, BufBall[i]->third);
-								if (glass[0]->status == 1)
+								full.ChangeColor(BufBall[i]->first, BufBall[i]->second, BufBall[i]->third);//стакан меняет свой цвет на цвет шара
+								if (glass[0]->status == 1)//если стакан маленький, он становится большим
 								{
 									for (int i = 0; i < 5; i++)
 										glass[i]->Hide();
@@ -186,7 +163,7 @@ int main()
 							BufBall[i]->Hide();
 							BufBall[i]->SetY(80);
 							BufBall[i]->setSpeed(BufBall[i]->getSpeed() + 1);
-							if (i == 3)
+							if (i == 3)//если мы сталкиваемся с wrongball, то все очки сгорают
 								count = 0;
 							else
 								count++;
@@ -217,7 +194,7 @@ int main()
 	}
 	
 }
-void border()
+void border()//отрисовка границ
 {
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0));
 	SelectObject(hdc, Pen);
@@ -227,7 +204,7 @@ void border()
 	LineTo(hdc, 800, 50);
 	LineTo(hdc, 400, 50);
 }
-void changestatus(Glass *glass0, Glass *glass1, Glass *glass2, Glass *glass3, Glass *glass4)
+void changestatus(Glass *glass0, Glass *glass1, Glass *glass2, Glass *glass3, Glass *glass4)//смена статуса и уменьшение стакана
 {
 	glass0->status = 1;
 	glass1->status = 1;
@@ -242,7 +219,7 @@ void changestatus(Glass *glass0, Glass *glass1, Glass *glass2, Glass *glass3, Gl
 	glass4->SetX(glass4->GetX() + 7);
 	glass4->SetY(glass4->GetY() + 25);
 }
-void changestatus2(Glass* glass0, Glass* glass1, Glass* glass2, Glass* glass3, Glass* glass4)
+void changestatus2(Glass* glass0, Glass* glass1, Glass* glass2, Glass* glass3, Glass* glass4)//смена статуса и увеличение стакана
 {
 	glass0->status = 0;
 	glass1->status = 0;
@@ -262,15 +239,16 @@ HWND GetConcolWindow()
 
 	char str[128];
 
-	LPWSTR title = (LPWSTR)"xxxxxxxxxxxxxxxxxx";	//íîâàÿ âåðñèÿ Windows
-	GetConsoleTitle((LPWSTR)str, sizeof((LPWSTR)str)); // ïîëó÷èòü çàãîëîâîê îêíà
-	SetConsoleTitle(title);						// óñòàíîâèòü íîâûé çàãîëîâîê îêíà
-	Sleep(100);									// æäåì ñìåíû çàãîëîâêà îêíà (100 ìñ);
+	LPWSTR title = (LPWSTR)"xxxxxxxxxxxxxxxxxx";	//новая версия Windows
+	GetConsoleTitle((LPWSTR)str, sizeof((LPWSTR)str)); // получить заголовок окна
+	SetConsoleTitle(title);						// установить новый заголовок окна
+	Sleep(100);									// ждем смены заголовка окна (100 мс);
 
-	HWND hwnd = FindWindow(NULL, (LPWSTR)title);// îïðåäåëÿåì äåñêðèïòîð îêíà
-	SetConsoleTitle((LPWSTR)str);				//âîçâðàùàåì ïðåæíèé çàãîëîâîê
+	HWND hwnd = FindWindow(NULL, (LPWSTR)title);// определяем дескриптор окна
+	SetConsoleTitle((LPWSTR)str);				//возвращаем прежний заголовок
 
-	return hwnd;//âåðíóòü äåñêðèïòîð îêíà
+	return hwnd;//вернуть дескриптор окна
 }//end GetConcolWindow()
 
  /**********************  End Of Ex05_03_Con.CPP File ********************/
+
