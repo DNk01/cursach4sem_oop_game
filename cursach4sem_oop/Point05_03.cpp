@@ -1,37 +1,36 @@
-﻿//Point05_03.cpp
-//Объявление трех классов . наследование.статические правила.раннее связывание.
-//реализация двух классов.наследование
+//Point05_03.cpp
 
+/*******************************************************
+Project Name: cursach4sem_oop
+File Name:	  Point05_03.cpp
+Programmer:   Kolotilov Danila
+Modifyed by:  Kolotilov Danila
+Created:      05/03/21
+Last Revision:31/05/21
+******************************************************/
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
 #include<Windows.h>
 #include"Point05_03.h"
 #include <conio.h>
 
 
 extern HDC hdc;//объявим контест устройства
-//реализация методов классов
-
-//методы класса Location
-//конструктор
 Location::Location(int InitX, int InitY)
 {
 	X = InitX;
 	Y = InitY;
-}//Location()
-//деструктор
+}
 Location::~Location()
 {
-	//пустое тело
-}//~Location
-//получить значение поля Х
+}
 int Location::GetX()
 {
 	return X;
-};//GetX()
-//получить значение поля У
+};
 int Location::GetY()
 {
 	return Y;
-}//GetY()
+}
 void Location::SetX(int x)
 {
 	X = x;
@@ -40,8 +39,6 @@ void Location::SetY(int y)
 {
 	Y = y;
 }
-
-
 
 //методы класса Point
 //конструктор
@@ -56,13 +53,6 @@ Point::~Point()
 	//пустое тело
 }//~Point()
 
-//узнать про светимость точки
-bool Point::IsVisible()
-{
-	return Visible;
-}//IsVisible()
-
-//показать точку на экране
 void Point::Show()
 {
 	Visible = true;//точку видно
@@ -81,7 +71,6 @@ void Point::Hide()
 	SetPixel(hdc, X, Y + 1, RGB(242, 242, 242));//рисуем установленным цветом
 	SetPixel(hdc, X + 1, Y + 1, RGB(242, 242, 242));//рисуем установленным цветом
 }//Hide()
-
 //переместить точку по новым координатам
 void Point::MoveTo(int NewX, int NewY)
 {
@@ -90,7 +79,6 @@ void Point::MoveTo(int NewX, int NewY)
 	Y = NewY;
 	Show();
 }
-
 void Point::ChangeHdcPow(int x, int y)
 {
 	
@@ -100,9 +88,6 @@ void Point::ChangeHdcPow(int x, int y)
 	LineTo(hdc, x, y);
 	DeleteObject(Pen1);
 }
-
-
-
 Glass::Glass(int InitX, int InitY) :Point(InitX,InitY)
 {
 	flag = 0;
@@ -125,7 +110,7 @@ void Glass :: ChangeColor(int First, int Second, int Third)
 void Glass::Show()
 {
 	ChangeHdcPow(X, Y);
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(100,100,100));
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0,0,0));
 	SelectObject(hdc, Pen);
 	POINT pt[4];
 	if (status == 0)
@@ -189,12 +174,10 @@ void Glass::Hide()
 	FillRgn(hdc, hrgn, hbrush);
 	DeleteObject(Pen);
 }
-
 Circle::Circle(int InitX, int InitY, int InitRadius) :Point(InitX, InitY)//Point(InitX, InitY) обеспечивает доступ к полям х у
 {
 	Radius = InitRadius;
 }//Circle()
-
 void Ball::Show()//показать круг на экране
 {
 	ChangeHdcPow(X, Y);
@@ -253,7 +236,6 @@ void Ball::Hide()
 	HBRUSH hbrush = CreateSolidBrush(RGB(242, 242, 242));
 	FillRgn(hdc, hrgn, hbrush);
 }
-
 WrongBall::WrongBall(int InitX, int InitY) : Ball(InitX, InitY)
 {
 	first = 0;
