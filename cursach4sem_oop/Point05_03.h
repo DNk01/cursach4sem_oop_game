@@ -1,64 +1,48 @@
 //Point05_03.h
 #pragma once
-//Объявление трех классов . наследование.статические правила.раннее связывание.
+/*******************************************************
+Project Name: cursach4sem_oop
+File Name:	  Point05_03.h
+Programmer:   Kolotilov Danila
+Modifyed by:  Kolotilov Danila
+Created:      05/03/21
+Last Revision:31/05/21
+******************************************************/
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 class Location
 {
-protected://предоставляет возможность потомкам(производному классу) иметь доступ к закрытым данным
-	int X;//координаты точки
+protected://РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРѕС‚РѕРјРєР°Рј(РїСЂРѕРёР·РІРѕРґРЅРѕРјСѓ РєР»Р°СЃСЃСѓ) РёРјРµС‚СЊ РґРѕСЃС‚СѓРї Рє Р·Р°РєСЂС‹С‚С‹Рј РґР°РЅРЅС‹Рј
+	int X;//РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚РѕС‡РєРё
 	int Y;
 public:
-	Location(int InitX, int InitY);//конструктор
-	~Location();//деструктор
-	int GetX();//получить значение поля Х
-	int GetY();//получить значение поля У
+	Location(int InitX, int InitY);//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+	~Location();//РґРµСЃС‚СЂСѓРєС‚РѕСЂ
+	int GetX();//РїРѕР»СѓС‡РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РїРѕР»СЏ РҐ
+	int GetY();//РїРѕР»СѓС‡РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РїРѕР»СЏ РЈ
 	void SetX(int x);
 	void SetY(int y);
-	//void SetX(int NewX){X=NewX;};//поменять значение поля Х
-	//void SetY(int NewY){Y=NewY;};//поменять значение поля У
 };//class Location
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
-class Point :public Location //по умолчанию private-все закрыто
-{
-	//Point-производный класс от Location
-	//атрибут public в объявлении производного лкасса означает
-	//что Х и У являются защищенными(protected) внутри Point
-	//-полученными по наследству
-protected:
-	bool Visible;//светиться точка или нет
-public:
-	Point(int InitX, int InitY);//конструктор
-	~Point();//деструктор
-	bool IsVisible();//узнать про светимость точки
-	//void SetVisible(bool NewVisible){Visible=NewVisible;};
-	virtual void Show();//показать точку на экране
-	virtual void Hide();//скрыть точку на экране
-	virtual void MoveTo(int NewX, int NewY);//переместить точку по новым координатам
-	virtual void ChangeHdcPow(int x, int y);
-};
-class Glass : public Point
+class Point :public Location
 {
 protected:
-	int flag;
-	int first;
-	int second;
-	int third;
+	bool Visible;
 public:
-	int status;
-	Glass(int x, int y);
+	Point(int InitX, int InitY);
+	~Point();
 	virtual void Show();
 	virtual void Hide();
-	virtual void ChangeFlag();
-	virtual void ChangeColor(int First, int Second, int Third);
+	virtual void MoveTo(int NewX, int NewY);
+	virtual void ChangeHdcPow(int x, int y);
 };
-
+//РљСЂСѓРі
 class Circle :public Point
 {
 public:
 	int Radius;
 	Circle(int InitX = 10, int InitY = 10, int InitRadius = 10);
-	
 };
+//РњСЏС‡
 class Ball :public Circle
 {
 private:
@@ -74,7 +58,7 @@ public:
 	int getSpeed();
 	void setSpeed(int Speed);
 };
-
+//РљР»Р°СЃСЃС‹ С€Р°СЂРёРєРѕРІ
 class firBall : public Ball
 {
 public:
@@ -101,6 +85,23 @@ class WrongBall :public Ball
 public:
 	WrongBall(int InitX, int InitY);
 };
+//РЎС‚Р°РєР°РЅ
+class Glass : public Point
+{
+protected:
+	int flag;
+	int first;
+	int second;
+	int third;
+public:
+	int status;
+	Glass(int x, int y);
+	virtual void Show();
+	virtual void Hide();
+	virtual void ChangeFlag();
+	virtual void ChangeColor(int First, int Second, int Third);
+};
+//РљР»Р°СЃСЃС‹ С‡Р°СЃС‚РµР№ СЃС‚Р°РєР°РЅР°
 class Leftside : public Glass
 {
 public:
