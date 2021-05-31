@@ -50,7 +50,7 @@ int main()
 			Rightside right(550, 550);
 			Upside up(555, 520);
 			Glass full(500,500);
-			
+			full.ChangeColor(242,242,242);
 			firstBall.status = 1;
 			secondBall.status = 2;
 			thirdBall.status = 3;
