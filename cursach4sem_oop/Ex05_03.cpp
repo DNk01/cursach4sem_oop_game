@@ -2,25 +2,24 @@
 #include <windows.h>
 #include <conio.h>
 #include <iostream>    
-using namespace std;        // Пространство имен std
+using namespace std;        // ГЏГ°Г®Г±ГІГ°Г Г­Г±ГІГўГ® ГЁГ¬ГҐГ­ std
 
-#include "Point05_03.h" 	//объявление классов
-#include "GetConWin.h"		//указатель на консольное окно
+#include "Point05_03.h" 	//Г®ГЎГєГїГўГ«ГҐГ­ГЁГҐ ГЄГ«Г Г±Г±Г®Гў
+#include "GetConWin.h"		//ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  ГЄГ®Г­Г±Г®Г«ГјГ­Г®ГҐ Г®ГЄГ­Г®
 
-//макрос для определения кода нажатой клавиши
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 
 HDC hdc;	
 
 /*---------------------------------------------------------------------*/
-/*               П Р О Т О Т И П Ы    Ф У Н К Ц И Й                    */
+/*               ГЏ Гђ ГЋ Г’ ГЋ Г’ Г€ ГЏ Г›    Г” Г“ ГЌ ГЉ Г– Г€ Г‰                    */
 /*---------------------------------------------------------------------*/
-HWND GetConcolWindow(); //указатель на консольное окно теперь в  "GetConlWin.h"
+HWND GetConcolWindow(); //ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  ГЄГ®Г­Г±Г®Г«ГјГ­Г®ГҐ Г®ГЄГ­Г® ГІГҐГЇГҐГ°Гј Гў  "GetConlWin.h"
 void border();
 void changestatus(Glass* glass0, Glass* glass1, Glass* glass2, Glass* glass3, Glass* glass4);
 void changestatus2(Glass* glass0, Glass* glass1, Glass* glass2, Glass* glass3, Glass* glass4);
 /***********************************************************************/
-/*               О С Н О В Н А Я    П Р О Г Р А М М А                  */
+/*               ГЋ Г‘ ГЌ ГЋ Г‚ ГЌ ГЂ Гџ    ГЏ Гђ ГЋ Гѓ Гђ ГЂ ГЊ ГЊ ГЂ                  */
 /***********************************************************************/
 int main()
 {
@@ -263,15 +262,15 @@ HWND GetConcolWindow()
 
 	char str[128];
 
-	LPWSTR title = (LPWSTR)"xxxxxxxxxxxxxxxxxx";	//новая версия Windows
-	GetConsoleTitle((LPWSTR)str, sizeof((LPWSTR)str)); // получить заголовок окна
-	SetConsoleTitle(title);						// установить новый заголовок окна
-	Sleep(100);									// ждем смены заголовка окна (100 мс);
+	LPWSTR title = (LPWSTR)"xxxxxxxxxxxxxxxxxx";	//Г­Г®ГўГ Гї ГўГҐГ°Г±ГЁГї Windows
+	GetConsoleTitle((LPWSTR)str, sizeof((LPWSTR)str)); // ГЇГ®Г«ГіГ·ГЁГІГј Г§Г ГЈГ®Г«Г®ГўГ®ГЄ Г®ГЄГ­Г 
+	SetConsoleTitle(title);						// ГіГ±ГІГ Г­Г®ГўГЁГІГј Г­Г®ГўГ»Г© Г§Г ГЈГ®Г«Г®ГўГ®ГЄ Г®ГЄГ­Г 
+	Sleep(100);									// Г¦Г¤ГҐГ¬ Г±Г¬ГҐГ­Г» Г§Г ГЈГ®Г«Г®ГўГЄГ  Г®ГЄГ­Г  (100 Г¬Г±);
 
-	HWND hwnd = FindWindow(NULL, (LPWSTR)title);// определяем дескриптор окна
-	SetConsoleTitle((LPWSTR)str);				//возвращаем прежний заголовок
+	HWND hwnd = FindWindow(NULL, (LPWSTR)title);// Г®ГЇГ°ГҐГ¤ГҐГ«ГїГҐГ¬ Г¤ГҐГ±ГЄГ°ГЁГЇГІГ®Г° Г®ГЄГ­Г 
+	SetConsoleTitle((LPWSTR)str);				//ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬ ГЇГ°ГҐГ¦Г­ГЁГ© Г§Г ГЈГ®Г«Г®ГўГ®ГЄ
 
-	return hwnd;//вернуть дескриптор окна
+	return hwnd;//ГўГҐГ°Г­ГіГІГј Г¤ГҐГ±ГЄГ°ГЁГЇГІГ®Г° Г®ГЄГ­Г 
 }//end GetConcolWindow()
 
  /**********************  End Of Ex05_03_Con.CPP File ********************/
